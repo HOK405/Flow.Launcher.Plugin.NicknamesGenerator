@@ -1,8 +1,8 @@
-Flow.Launcher.Plugin.UniqueNamesGenerator
+Flow.Launcher.Plugin.NickNamesGenerator
 ==================
 
 A plugin for the [Flow launcher](https://github.com/Flow-Launcher/Flow.Launcher).
 
 ### Usage
 
-    pw <arguments>
+    nm
