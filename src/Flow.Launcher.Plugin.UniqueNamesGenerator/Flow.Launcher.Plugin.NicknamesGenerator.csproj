@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <AssemblyName>Flow.Launcher.Plugin.NicknamesGenerator</AssemblyName>
+    <PackageId>Flow.Launcher.Plugin.NicknamesGenerator</PackageId>
+    <Authors>hok</Authors>
+    <PackageProjectUrl>https://github.com/HOK405/Flow.Launcher.Plugin.NicknamesGenerator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HOK405/Flow.Launcher.Plugin.NicknamesGenerator</RepositoryUrl>
+    <PackageTags>flow-launcher flow-plugin</PackageTags>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<UseWPF>true</UseWPF>
+	<NoWarn>$(NoWarn);CS1591</NoWarn>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+  	<None Include="plugin.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  	<None Include="icon.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+	<None Include="words.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+	<None Include="assets\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flow.Launcher.Plugin" Version="4.4.0" />
+  </ItemGroup>
+	
+<ItemGroup>
+  <None Update="SettingsView.xaml">
+    <Generator>MSBuild:Compile</Generator>
+  </None>
+</ItemGroup>
+
+</Project>
