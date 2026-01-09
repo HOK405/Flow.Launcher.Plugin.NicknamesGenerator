@@ -7,12 +7,15 @@ Generate catchy, configurable nicknames / usernames right from Flow Launcher —
 ## Screenshots
 
 **Plugin in action**
+
 ![Plugin results](assets/usage-results.png)
 
 **Actions / batch example**
+
 ![Plugin actions](assets/usage-actions.png)
 
 **Settings**
+
 ![Settings overview](assets/settings-overview.png)
 
 ---
@@ -121,5 +124,3 @@ Adds an optional action for generating multiple nicknames at once:
 
 - Changes are **saved automatically** (there is no “Save” button).
 - The settings UI is responsive and may switch between two/three columns depending on available width.
-
----
