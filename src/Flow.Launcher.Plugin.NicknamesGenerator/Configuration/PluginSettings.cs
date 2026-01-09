@@ -42,5 +42,5 @@ public class PluginSettings
     public bool ShowReloadAction { get; set; } = false;
     public string WordsFileName { get; set; } = "words.json";
 
-    public EnterActionMode EnterActionMode { get; set; } = EnterActionMode.CopyOnly;
+    public EnterActionMode EnterActionMode { get; set; } = EnterActionMode.CopyAndPaste;
 }

@@ -580,7 +580,7 @@ public partial class SettingsView : UserControl
     {
         SaveEndingsOnly();
 
-        _settings.EnterActionMode = EnterCopyPasteRadio.IsChecked == true ? EnterActionMode.CopyAndPaste : EnterActionMode.CopyOnly;
+        _settings.EnterActionMode = EnterCopyPasteRadio.IsChecked == true ? EnterActionMode.CopyAndPaste : EnterActionMode.Copy;
 
         _settings.WordsFileName = (WordsFileBox.Text ?? "words.json").Trim();
         if (_settings.WordsFileName.Length == 0) _settings.WordsFileName = "words.json";

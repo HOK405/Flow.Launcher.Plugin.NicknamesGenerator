@@ -2,7 +2,6 @@
 
 public enum EnterActionMode
 {
-    CopyOnly = 0,
-    PasteOnly = 1,
-    CopyAndPaste = 2
+    Copy = 0,
+    CopyAndPaste = 1
 }
