@@ -1,5 +1,6 @@
 ﻿using Flow.Launcher.Plugin.NicknamesGenerator.Configuration;
 using Flow.Launcher.Plugin.NicknamesGenerator.Configuration.Enums;
+using Flow.Launcher.Plugin.NicknamesGenerator.Data;
 using Flow.Launcher.Plugin.UniqueNamesGenerator.Data;
 using System;
 using System.Collections.Generic;
@@ -15,27 +16,61 @@ public static class NickNameGenerator
 
     public static string Generate(PluginSettings settings, WordsStore words, int? overrideParts)
     {
+        var plan = GeneratePlan(settings, words, overrideParts);
+        return BuildFromPlan(plan);
+    }
+
+    public static GeneratedNamePlan GeneratePlan(PluginSettings settings, WordsStore words, int? overrideParts)
+    {
         var partsCount = GetPartsCount(settings, overrideParts);
         var parts = BuildParts(settings, words, partsCount);
 
         var sep = PickSeparator(settings);
         var caseMode = PickCaseMode(settings);
 
-        var baseName = ApplyFormatting(parts, caseMode, sep);
-
-        if (!settings.UseNumbers)
-            return baseName;
-
-        int digits = PickDigits(settings);
-        var left = GenerateDigits(digits);
-        var right = GenerateDigits(digits);
-
-        return settings.NumberPosition switch
+        var plan = new GeneratedNamePlan
         {
-            NumberPosition.Prefix => left + baseName,
-            NumberPosition.Suffix => baseName + right,
-            _ => left + baseName + right
+            Parts = parts,
+            Separator = sep,
+            CaseMode = caseMode,
+            UseNumbers = settings.UseNumbers,
+            NumberPosition = settings.NumberPosition
         };
+
+        if (settings.UseNumbers)
+        {
+            int digits = PickDigits(settings);
+            plan.DigitsLen = digits;
+            plan.LeftDigits = GenerateDigits(digits);
+            plan.RightDigits = GenerateDigits(digits);
+        }
+
+        return plan;
+    }
+
+    public static string BuildFromPlan(GeneratedNamePlan plan, string? separatorOverride = null, string? ending = null)
+    {
+        var sep = separatorOverride ?? plan.Separator ?? "";
+        var baseName = ApplyFormatting(plan.Parts, plan.CaseMode, sep);
+
+        string final = baseName;
+
+        if (plan.UseNumbers)
+        {
+            var left = plan.LeftDigits ?? "";
+            var right = plan.RightDigits ?? "";
+            final = plan.NumberPosition switch
+            {
+                NumberPosition.Prefix => left + baseName,
+                NumberPosition.Suffix => baseName + right,
+                _ => left + baseName + right
+            };
+        }
+
+        if (!string.IsNullOrEmpty(ending))
+            final += ending;
+
+        return final;
     }
 
     public static List<string> GenerateBatch(PluginSettings settings, WordsStore words, int count, int? overrideParts)
@@ -162,14 +197,10 @@ public static class NickNameGenerator
         if (cleaned.Count == 0) return "";
 
         if (mode == CaseMode.LowerCase)
-        {
             return string.Join(sep, cleaned.Select(x => x.ToLowerInvariant()));
-        }
 
         if (mode == CaseMode.PascalCase)
-        {
             return string.Join(sep, cleaned.Select(ToTitle));
-        }
 
         var first = cleaned[0].ToLowerInvariant();
         var rest = cleaned.Skip(1).Select(ToTitle);

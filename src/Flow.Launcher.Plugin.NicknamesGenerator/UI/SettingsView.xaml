@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Flow.Launcher.Plugin.UniqueNamesGenerator.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="420"
              PreviewMouseWheel="OnPreviewMouseWheel"
              RequestBringIntoView="OnRequestBringIntoView">
 
@@ -187,6 +188,28 @@
                         ToolTipService.ShowDuration="60000"/>
             </DockPanel>
         </DataTemplate>
+
+        <ControlTemplate x:Key="SectorGroupBoxTemplate" TargetType="GroupBox">
+            <Border CornerRadius="10"
+                    BorderThickness="4"
+                    BorderBrush="#5A5A5A"
+                    Background="Transparent"
+                    Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ContentPresenter Grid.Row="0"
+                                      ContentSource="Header"
+                                      Margin="0,0,0,8"/>
+
+                    <ContentPresenter Grid.Row="1"
+                                      ContentSource="Content"/>
+                </Grid>
+            </Border>
+        </ControlTemplate>
     </UserControl.Resources>
 
     <Grid Margin="10">
@@ -197,22 +220,23 @@
 
         <TextBlock Grid.Row="0"
                    Text="Changes are saved automatically."
-                   Margin="0,0,0,8"
+                   Margin="18,0,0,8"
                    Foreground="#888"/>
 
-        <Grid x:Name="LayoutGrid" Grid.Row="1">
+        <Grid x:Name="LayoutGrid" Grid.Row="1" ClipToBounds="True">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="Col0" Width="*"/>
-                <ColumnDefinition x:Name="Col1" Width="*"/>
-                <ColumnDefinition x:Name="Col2" Width="*"/>
+                <ColumnDefinition x:Name="Col0" Width="1.15*"/>
+                <ColumnDefinition x:Name="Col1" Width="1.15*"/>
+                <ColumnDefinition x:Name="Col2" Width="1.15*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel x:Name="ColA" Grid.Column="0" Margin="0,0,8,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <StackPanel x:Name="ColA" Grid.Column="0" Margin="6,0,6,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" ClipToBounds="True">
 
                 <GroupBox Header="Custom endings"
                          HeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                         Template="{StaticResource SectorGroupBoxTemplate}"
                          Tag="Custom endings are optional suffixes added to the generated username (for example: @gmail.com). You will still have the option to pick the plain username without any ending."
-                         Margin="0,0,0,6"
+                         Margin="0,0,0,14"
                          HorizontalAlignment="Stretch">
                     <StackPanel Margin="10">
                         <CheckBox x:Name="UseEndingsBox" Content="Enable custom endings" Margin="0,0,0,8"/>
@@ -375,8 +399,9 @@
 
                 <GroupBox Header="Parts"
                          HeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                         Template="{StaticResource SectorGroupBoxTemplate}"
                          Tag="Controls how many word parts are used in the username. If Min equals Max, the parts count is fixed."
-                         Margin="0,0,0,0"
+                         Margin="0,0,0,14"
                          HorizontalAlignment="Stretch">
                     <StackPanel Margin="10">
                         <Grid Margin="0,0,0,8">
@@ -427,12 +452,13 @@
 
             </StackPanel>
 
-            <StackPanel x:Name="ColB" Grid.Column="1" Margin="16,0,8,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <StackPanel x:Name="ColB" Grid.Column="1" Margin="8,0,6,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" ClipToBounds="True">
 
                 <GroupBox Header="Formatting"
                          HeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                         Template="{StaticResource SectorGroupBoxTemplate}"
                          Tag="If you select one option, the mode is FIXED. If you select multiple options, the mode is RANDOM."
-                         Margin="0,0,0,6"
+                         Margin="0,0,0,14"
                          HorizontalAlignment="Stretch">
                     <StackPanel Margin="10">
                         <Grid Margin="0,0,0,12">
@@ -480,8 +506,9 @@
 
                 <GroupBox Header="Numbers"
                          HeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                         Template="{StaticResource SectorGroupBoxTemplate}"
                          Tag="Adds digits to the username. Use Position to place digits at the front, at the end, or both. Min and Max control how many digits are used."
-                         Margin="0,0,0,6"
+                         Margin="0,0,0,14"
                          HorizontalAlignment="Stretch">
                     <StackPanel Margin="10">
                         <CheckBox x:Name="UseNumbersBox" Content="Use numbers" Margin="0,0,0,10"/>
@@ -543,8 +570,9 @@
 
                 <GroupBox Header="Word structure"
                          HeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                         Template="{StaticResource SectorGroupBoxTemplate}"
                          Tag="Controls the probability that the username ends with two nouns."
-                         Margin="0,0,0,6"
+                         Margin="0,0,0,14"
                          HorizontalAlignment="Stretch">
                     <StackPanel Margin="10">
                         <CheckBox x:Name="DoubleNounTailBox" Content="Allow two nouns at the end" Margin="0,0,0,10"/>
@@ -577,13 +605,14 @@
 
             </StackPanel>
 
-            <StackPanel x:Name="ColCPanel" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <StackPanel x:Name="ColCPanel" Grid.Column="2" Margin="6,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" ClipToBounds="True">
 
                 <GroupBox x:Name="EnterActionGroup"
                          Header="Enter action"
                          HeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                         Template="{StaticResource SectorGroupBoxTemplate}"
                          Tag="Choose what happens when you press Enter: Copy will copy the result. Copy and Paste will copy it and then paste using Ctrl+V."
-                         Margin="0,0,0,6"
+                         Margin="0,0,0,14"
                          HorizontalAlignment="Stretch">
                     <StackPanel Margin="10">
                         <RadioButton x:Name="EnterCopyRadio" Content="Copy" GroupName="EnterAction" Margin="0,0,0,6"/>
@@ -594,8 +623,9 @@
                 <GroupBox x:Name="DictionaryGroup"
                          Header="Dictionary"
                          HeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                         Template="{StaticResource SectorGroupBoxTemplate}"
                          Tag="Controls the words source file (words.json by default). Use Reload to re-read the file from the plugin folder."
-                         Margin="0,0,0,6"
+                         Margin="0,0,0,14"
                          HorizontalAlignment="Stretch">
                     <StackPanel Margin="10">
                         <DockPanel Margin="0,0,0,8" LastChildFill="True">
@@ -609,7 +639,9 @@
                 <GroupBox x:Name="BatchGroup"
                          Header="Batch output"
                          HeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                         Template="{StaticResource SectorGroupBoxTemplate}"
                          Tag="Adds an optional action to generate multiple usernames at once. You can set the default count, enforce uniqueness, and choose the output format."
+                         Margin="0,0,0,14"
                          HorizontalAlignment="Stretch">
                     <StackPanel Margin="10">
                         <CheckBox x:Name="ShowBatchActionBox" Content="Show batch action in results" Margin="0,0,0,10"/>
