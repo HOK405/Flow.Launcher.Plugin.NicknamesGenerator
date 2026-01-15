@@ -1,6 +1,7 @@
 using Flow.Launcher.Plugin.NicknamesGenerator.Configuration;
 using Flow.Launcher.Plugin.NicknamesGenerator.Configuration.Enums;
 using Flow.Launcher.Plugin.NicknamesGenerator.Core;
+using Flow.Launcher.Plugin.NicknamesGenerator.Data;
 using Flow.Launcher.Plugin.UniqueNamesGenerator;
 using Flow.Launcher.Plugin.UniqueNamesGenerator.Data;
 using Flow.Launcher.Plugin.UniqueNamesGenerator.Input;
@@ -12,7 +13,7 @@ using System.Windows.Controls;
 
 namespace Flow.Launcher.Plugin.NicknamesGenerator;
 
-public class Main : IPlugin, ISettingProvider
+public class Main : IPlugin, ISettingProvider, IContextMenu
 {
     private const int PasteInitialDelayMs = 220;
 
@@ -76,7 +77,8 @@ public class Main : IPlugin, ISettingProvider
 
         var results = new List<Result>();
 
-        var baseName = NickNameGenerator.Generate(_settings, _words, overrideParts);
+        var plan = NickNameGenerator.GeneratePlan(_settings, _words, overrideParts);
+        var baseName = NickNameGenerator.BuildFromPlan(plan);
 
         results.Add(new Result
         {
@@ -84,6 +86,7 @@ public class Main : IPlugin, ISettingProvider
             SubTitle = BuildEnterSubtitle(),
             IcoPath = _iconPath,
             Score = 1000,
+            ContextData = new SeparatorContextData { Plan = plan, Ending = "" },
             Action = _ =>
             {
                 ExecuteEnterAction(baseName);
@@ -96,19 +99,23 @@ public class Main : IPlugin, ISettingProvider
             int score = 990;
             foreach (var e in endings)
             {
-                var full = baseName + e;
+                var ending = e;
+                var full = NickNameGenerator.BuildFromPlan(plan, ending: ending);
+
                 results.Add(new Result
                 {
                     Title = full,
-                    SubTitle = BuildEnterSubtitle() + " · " + e,
+                    SubTitle = BuildEnterSubtitle() + " · " + ending,
                     IcoPath = _iconPath,
                     Score = score,
+                    ContextData = new SeparatorContextData { Plan = plan, Ending = ending },
                     Action = _ =>
                     {
                         ExecuteEnterAction(full);
                         return true;
                     }
                 });
+
                 score = Math.Max(900, score - 2);
             }
         }
@@ -150,6 +157,52 @@ public class Main : IPlugin, ISettingProvider
         }
         return results;
     }
+
+    public List<Result> LoadContextMenus(Result selectedResult)
+    {
+        if (selectedResult?.ContextData is not SeparatorContextData data)
+            return new List<Result>();
+
+        var plan = data.Plan;
+        var ending = (data.Ending ?? "").Trim();
+
+        var all = new (string Label, string Sep)[]
+        {
+            ("None", ""),
+            ("_", "_"),
+            (".", "."),
+            ("-", "-"),
+        };
+
+        var list = new List<Result>();
+        int score = 1000;
+
+        foreach (var (label, sep) in all)
+        {
+            if (string.Equals(sep, plan.Separator ?? "", StringComparison.Ordinal))
+                continue;
+
+            var title = NickNameGenerator.BuildFromPlan(plan, separatorOverride: sep, ending: ending);
+
+            list.Add(new Result
+            {
+                Title = title,
+                SubTitle = string.IsNullOrEmpty(ending)
+                    ? $"{BuildEnterSubtitle()} · Separator: {label}"
+                    : $"{BuildEnterSubtitle()} · Separator: {label} · Ending: {ending}",
+                IcoPath = _iconPath,
+                Score = score--,
+                Action = _ =>
+                {
+                    ExecuteEnterAction(title);
+                    return true;
+                }
+            });
+        }
+
+        return list;
+    }
+
     private string BuildEnterSubtitle()
     {
         return _settings.EnterActionMode == EnterActionMode.CopyAndPaste ? "Copy and Paste" : "Copy";

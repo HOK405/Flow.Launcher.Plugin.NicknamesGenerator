@@ -18,6 +18,10 @@ Generate catchy, configurable nicknames / usernames right from Flow Launcher —
 
 ![Settings overview](assets/settings-overview.png)
 
+**Context Menu Example**
+
+![Context menu](assets/context-menu-example.png)
+
 ---
 
 ## Features
@@ -49,6 +53,10 @@ Generate catchy, configurable nicknames / usernames right from Flow Launcher —
 - **Reload dictionary**
   - Reloads the configured words file from the plugin folder
   - Optional “show reload action in results”
+- **Context Menu** (New Feature)
+  - After generating a nickname, use the **Right Arrow** key to open the **context menu** and view additional variations of the generated nickname.
+  - The menu includes all possible separators (`None`, `_`, `.`, `-`), even if they were not selected during the initial random generation.
+  - This allows you to quickly switch between different separator options without needing to regenerate the nickname.
 
 ---
 
@@ -58,6 +66,7 @@ Generate catchy, configurable nicknames / usernames right from Flow Launcher —
 2. Run the plugin using its **Action Keyword** (set in Flow Launcher plugin settings).
 3. Pick a generated nickname from the results:
    - Press **Enter** to copy (or copy+paste, depending on your settings).
+   - Use **Right Arrow** to open the **context menu** and view alternative separator variations for your selected nickname.
 
 > Tip: Enable **Batch output** to generate multiple nicknames in one go.
 
@@ -117,6 +126,13 @@ Adds an optional action for generating multiple nicknames at once:
 - Output format: New lines / Comma + space
 
 ![Batch output](assets/settings-batch.png)
+
+### Context Menu
+- After selecting a generated nickname, you can press **Right Arrow** to open the **context menu**.
+- The context menu will display alternative variations of the generated nickname with different separators (e.g., `_`, `.`, `-`).
+- This allows you to easily select from different styles of separators without regenerating the nickname.
+
+![Context menu](assets/context-menu-example.png)
 
 ---
 

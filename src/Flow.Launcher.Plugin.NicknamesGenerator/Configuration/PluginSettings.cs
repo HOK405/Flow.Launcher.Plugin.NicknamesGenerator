@@ -27,7 +27,7 @@ public class PluginSettings
     public bool RandomSepNone { get; set; } = true;
     public bool RandomSepUnderscore { get; set; } = true;
     public bool RandomSepDot { get; set; } = true;
-    public bool RandomSepDash { get; set; } = true;
+    public bool RandomSepDash { get; set; } = false;
 
     public bool UseNumbers { get; set; } = true;
     public int NumberDigitsMin { get; set; } = 3;

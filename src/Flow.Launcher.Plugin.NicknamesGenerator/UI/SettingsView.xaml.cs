@@ -717,9 +717,26 @@ public partial class SettingsView : UserControl
     {
         while (d != null)
         {
-            if (d is T t) return t;
-            d = VisualTreeHelper.GetParent(d);
+            if (d is T target)
+                return target;
+
+            d = GetParentObject(d);
         }
+
         return null;
+    }
+
+    private static DependencyObject? GetParentObject(DependencyObject d)
+    {
+        if (d is Visual || d is System.Windows.Media.Media3D.Visual3D)
+            return VisualTreeHelper.GetParent(d);
+
+        if (d is FrameworkContentElement fce)
+            return fce.Parent;
+
+        if (d is ContentElement ce)
+            return ContentOperations.GetParent(ce);
+
+        return LogicalTreeHelper.GetParent(d);
     }
 }
