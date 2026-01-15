@@ -4,7 +4,7 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <AssemblyName>Flow.Launcher.Plugin.NicknamesGenerator</AssemblyName>
     <PackageId>Flow.Launcher.Plugin.NicknamesGenerator</PackageId>
-    <Authors>hok</Authors>
+    <Authors>HOK405</Authors>
     <PackageProjectUrl>https://github.com/HOK405/Flow.Launcher.Plugin.NicknamesGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/HOK405/Flow.Launcher.Plugin.NicknamesGenerator</RepositoryUrl>
     <PackageTags>flow-launcher flow-plugin</PackageTags>

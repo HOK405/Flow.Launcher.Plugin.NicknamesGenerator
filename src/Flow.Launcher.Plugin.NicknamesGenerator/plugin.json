@@ -3,7 +3,7 @@
   "ActionKeyword": "nm",
   "Name": "Nicknames Generator",
   "Description": "Simple configurable nicknames generator",
-  "Author": "hok",
+  "Author": "HOK405",
   "Version": "1.0.0",
   "Language": "csharp",
   "Website": "https://github.com/HOK405/Flow.Launcher.Plugin.NicknamesGenerator",
